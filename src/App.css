@@ -19,6 +19,8 @@ body {
   background-color: var(--container-color);
 }
 
+/* TOP BAR */
+
 .container .topBar {
   display: grid;
   grid-template-columns: 1.5fr 2fr;
