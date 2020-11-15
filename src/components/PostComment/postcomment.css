@@ -1,0 +1,64 @@
+.comment {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: 
+  "friendAvatar friendComment"
+  "friendName friendComment";
+  padding: 10px 0px;
+  border: 1px solid var(--border-color);
+  margin-top: 3px;
+  border-radius: 6px;
+}
+
+.comment .friendAvatar{
+  grid-area: friendAvatar;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.comment .friendAvatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: var(--color-indigo);
+  box-shadow: 4px 4px 7px 0px rgb(0 0 0 / 12%);
+}
+
+.comment .friendName {
+  grid-area: friendName;
+  min-width: 90px;
+}
+
+.comment .friendName p{
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  
+  word-wrap: break-word;
+}
+
+.comment .friendComment{
+  grid-area: friendComment;
+}
+
+.comment .friendComment p {
+  text-align: left;
+  margin: 10px;
+}
+
+.deleteCommentBtn{
+  margin-top: -23px;
+  display: block;
+  float: right;
+  cursor: pointer;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 6px 0px 6px 0px;
+  opacity: 0.5;
+}
+
+.deleteCommentBtn:hover {
+  opacity: 1;
+}

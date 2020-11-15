@@ -1,192 +1,183 @@
+import { useEffect, useState } from "react";
+import AvatarInfo from "./components/AvatarInfo/AvatarInfo";
+import Header from "./components/Header/Header";
+import Post from "./components/Post/Post";
+import Users from "./components/Users/Users";
+import { v4 as uuidv4 } from 'uuid';
+
+import api from './services/api';
+
 import "./app.css";
 
-import antMan from './img/antman.png';
-
 function App() {
+  
+  const [defaultUser, setDefaultUser] = useState('superman');
+  const [actualUser, setActualUser] = useState('superman');
+  const [allUsers, setAllUsers] = useState([]);
+  const [allPostsDataFromActualUser, setAllPostsDataFromActualUser] = useState([]);
+
+  const [allUserPostsComments, setAllUserPostsComments] = useState([]);
+  const [allUserPostsLikes, setAllUserPostsLikes] = useState([]);
+
+  async function getAllPostsDataFromActualUser() {
+    const allPostsUser = await api.get(`/posts?user=${defaultUser}`).then(response => {
+      return response.data;
+    });
+
+    const allPostsComments = await api.get(`/comments`).then(response => {
+      return response.data;
+    });
+
+    const allPostsLikes = await api.get(`/likes`).then(response => {
+      return response.data;
+    });
+
+    // Create a new array with all post data
+    let allPostsData = [];
+    let allPostsTotalComments = 0;
+    let allPostsTotalLikes = 0;
+
+    allPostsUser.forEach(post => {
+      let comments = allPostsComments.filter(comment => {
+        return comment.postId === post.id;
+      });
+
+      let likes = allPostsLikes.filter(like => {
+        return like.postId === post.id;
+      });
+
+      allPostsData.push({
+          post, 
+          comments, 
+          likes,
+          'totalComments': comments.length, 
+          'totalLikes': likes.length,
+        }
+      );
+    })
+
+    // Get all comments for the actual user posts
+    allPostsTotalComments = allPostsData.reduce((acc, curr) => {
+      return acc += curr.totalComments;
+    }, 0)
+
+    // Get all likes for the actual user posts
+    allPostsTotalLikes = allPostsData.reduce((acc, curr) => {
+      return acc += curr.totalLikes;
+    }, 0)
+
+    setAllUserPostsComments(allPostsTotalComments);
+    setAllUserPostsLikes(allPostsTotalLikes);
+    setAllPostsDataFromActualUser(allPostsData);
+  }
+
+  useEffect(() => {
+    const setAllUserAvailable = async () => {
+      const bestFriends = await api.get(`/bestFriends`).then(response => {
+        return response.data;
+      });
+      bestFriends.push(actualUser);
+      setAllUsers(bestFriends);
+    }
+    setAllUserAvailable();
+
+    getAllPostsDataFromActualUser();
+
+  },[])
+
+  // console.log(allPostsDataFromActualUser);
+
+  function handleChangeActiveUser(user) {
+    setActualUser(user);
+  }
+
+  async function handleAddPostComment(postId, user, comment){
+
+    const userComment = {
+      id: uuidv4(),
+      comment,
+      user,
+      postId,
+    }
+
+    await api.post(`/comments`, userComment).then(response => {
+      getAllPostsDataFromActualUser();
+    })
+
+  }
+
+  async function handleLikePost(postId, user){
+
+    const userLiked = {
+      id: uuidv4(),
+      postId,
+      user
+    }
+
+    await api.post(`/likes`, userLiked).then(response => {
+      getAllPostsDataFromActualUser();
+    })
+
+  }
+
+  async function handleDislikePost(likeId){
+
+    await api.delete(`/likes?id=${likeId}`)
+    .then(resp => {
+      console.log(resp.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    getAllPostsDataFromActualUser();
+
+  }
+
+  async function handleDeletePostComment(commentId){
+
+    await api.delete(`/comments?id=${commentId}`)
+    .then(resp => {
+      console.log(resp.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    getAllPostsDataFromActualUser();
+
+  }
+
   return (
-    <div>
-      <div className="container">
-        <h1>Movinstagram</h1>
+    <div className="container">
+      <Header>Movinstagram</Header>
+      
         <div className="topBar">
-          <div className="areaAvatar">
-            <div className="userAvatar">
-              <img src={antMan} alt="" />
-            </div>
-            <div className="userStats">
-              <p>
-                <b>superman</b>
-              </p>
-              <p>
-                <b>71</b> posts
-              </p>
-              <p>
-                <b>383</b> curtidas
-              </p>
-              <p>
-                <b>381</b> comentários
-              </p>
-            </div>
-          </div>
-
-          <div className="areaCurrentUser">
-            <h3>Visualizar timeline com:</h3>
-
-            <div className="currentUsers">
-              <div className="user">
-                <img src={antMan} alt="" />
-                <p>batman</p>
-              </div>
-
-              <div className="user currentUser">
-                <img src={antMan} alt="" />
-                <p>superman</p>
-              </div>
-
-              <div className="user">
-                <img src={antMan} alt="" />
-                <p>wonderWoman</p>
-              </div>
-            </div>
-          </div>
+          <AvatarInfo 
+            actualUserOnline={defaultUser}
+            totalUserPosts={allPostsDataFromActualUser.length}
+            totalUserComments={allUserPostsComments}
+            totalUserLikes={allUserPostsLikes}
+          />
+          <Users 
+            allUserAvailable={allUsers} 
+            activeUser={actualUser} 
+            onUserChange={handleChangeActiveUser}
+          />
         </div>
 
-        <div className="post">
-          <div className="postImg">
-            <img
-              src="https://image.tmdb.org/t/p/w500/A5TK9Q63r2h4cx1q2Isl3bTaVlY.jpg"
-              alt=""
+      {allPostsDataFromActualUser.length === 0
+        ? (<p>Nenhum post encontrado...</p>) 
+        : (
+            <Post 
+              postData={allPostsDataFromActualUser} 
+              activeUser={actualUser} 
+              handleAddComment={handleAddPostComment}
+              handleDeleteComment={handleDeletePostComment}
+              handleLikedPost={handleLikePost}
+              handleDislikedPost={handleDislikePost}
             />
-          </div>
-
-          <div className="postInfo">
-            <div className="postUserData">
-              <div className="postUserAvatar">
-                <img src={antMan} alt="" />
-              </div>
-              <div className="postUserName">
-                <p>
-                  <b>superman</b>
-                </p>
-              </div>
-              <div className="postUserComment">
-                <p>Gosto muito desse filme: "Aquaman".</p>
-              </div>
-            </div>
-
-            <div className="likesCounter">
-              <div className="likes">🖤 5</div>
-              <div className="comments">💬 3</div>
-            </div>
-
-            <div className="areaComments">
-              <div className="comment">
-                <div className="friendAvatar">
-                  <img src={antMan} alt="" />
-                </div>
-                <div className="friendName">
-                  <p>aquaman</p>
-                </div>
-                <div className="friendComment">
-                  <p>
-                    Vou parar de te seguir se continuar postando filmes assim...
-                  </p>
-                </div>
-              </div>
-
-              <div className="comment">
-                <div className="friendAvatar">
-                  <img src={antMan} alt="" />
-                </div>
-                <div className="friendName">
-                  <p>spiderMan</p>
-                </div>
-                <div className="friendComment">
-                  <p>Muito bom! Esse filme realmente é sensacional!</p>
-                </div>
-              </div>
-
-              <div className="inputCommentArea">
-                <div className="actualUserAvatar">
-                  <img src={antMan} alt="" />
-                </div>
-                <div className="inputArea">
-                  <input type="text" placeholder="Digite seu comentário..."/>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div className="post">
-          <div className="postImg">
-            <img
-              src="https://image.tmdb.org/t/p/w500/A5TK9Q63r2h4cx1q2Isl3bTaVlY.jpg"
-              alt=""
-            />
-          </div>
-
-          <div className="postInfo">
-            <div className="postUserData">
-              <div className="postUserAvatar">
-                <img src={antMan} alt="" />
-              </div>
-              <div className="postUserName">
-                <p>
-                  <b>superman</b>
-                </p>
-              </div>
-              <div className="postUserComment">
-                <p>Gosto muito desse filme: "Aquaman".</p>
-              </div>
-            </div>
-
-            <div className="likesCounter">
-              <div className="likes">🖤 5</div>
-              <div className="comments">💬 3</div>
-            </div>
-
-            <div className="areaComments">
-              <div className="comment">
-                <div className="friendAvatar">
-                  <img src={antMan} alt="" />
-                </div>
-                <div className="friendName">
-                  <p>aquaman</p>
-                </div>
-                <div className="friendComment">
-                  <p>
-                    Vou parar de te seguir se continuar postando filmes assim...
-                  </p>
-                </div>
-              </div>
-
-              <div className="comment">
-                <div className="friendAvatar">
-                  <img src={antMan} alt="" />
-                </div>
-                <div className="friendName">
-                  <p>spiderMan</p>
-                </div>
-                <div className="friendComment">
-                  <p>Muito bom! Esse filme realmente é sensacional!</p>
-                </div>
-              </div>
-
-              <div className="inputCommentArea">
-                <div className="actualUserAvatar">
-                  <img src={antMan} alt="" />
-                </div>
-                <div className="inputArea">
-                  <input type="text" placeholder="Digite seu comentário..."/>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+          )
+      }
+      
     </div>
   );
 }
