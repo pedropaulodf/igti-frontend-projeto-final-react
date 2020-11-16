@@ -429,7 +429,7 @@
   ],
   "comments": [
     {
-      "id": "ee3c77d5-996f-47a2-9d53-28b9c79824e6",
+      "id": "ee3c77d6-996f-47a2-9d53-28b9c79824e6",
       "comment": "Péssimos atores, não gostei.",
       "user": "batman",
       "postId": "57f1428f-97d0-444b-96fe-6ddc913aed5e"
@@ -2857,12 +2857,6 @@
       "comment": "Péssimos atores, não gostei.",
       "user": "wonderWoman",
       "postId": "530f1ff4-060c-4e96-b039-f3ac3dea1f01"
-    },
-    {
-      "id": "744b2ad3-a0aa-4204-8ed3-d056b0debb92",
-      "comment": "testedfd",
-      "user": "superman",
-      "postId": "57f1428f-97d0-444b-96fe-6ddc913aed5e"
     }
   ],
   "likes": [
@@ -4910,26 +4904,6 @@
       "id": "96aa3b85-11d7-407d-8dc6-993c00f9a0f5",
       "postId": "530f1ff4-060c-4e96-b039-f3ac3dea1f01",
       "user": "thor"
-    },
-    {
-      "id": "803cff05-212d-4d8a-a4d5-6afa655ca053",
-      "postId": "d84aee2b-803c-4563-90b9-bf2862513d17",
-      "user": "batman"
-    },
-    {
-      "id": "5c0c7e55-d2a2-4625-bbea-12f3a5dbb649",
-      "postId": "57f1428f-97d0-444b-96fe-6ddc913aed5e",
-      "user": "superman"
-    },
-    {
-      "id": "2aa253f9-5f5b-43b8-96e8-a9de6e0c09f2",
-      "postId": "a759fa20-3a5d-43c5-a79c-40271fbfb878",
-      "user": "superman"
-    },
-    {
-      "id": "7eff324f-7bb4-4ce7-b429-955624e827b5",
-      "postId": "f841ab78-fe7e-4a19-8d42-ce402cdf7f1b",
-      "user": "superman"
     }
   ],
   "bestFriends": [
