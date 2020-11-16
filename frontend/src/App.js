@@ -122,7 +122,7 @@ function App() {
 
   async function handleDislikePost(likeId){
 
-    await api.delete(`/likes?id=${likeId}`)
+    await api.delete(`/likes/${likeId}`)
     .then(resp => {
       console.log(resp.data)
     })
@@ -135,7 +135,7 @@ function App() {
 
   async function handleDeletePostComment(commentId){
 
-    await api.delete(`/comments?id=${commentId}`)
+    await api.delete(`/comments/${commentId}`)
     .then(resp => {
       console.log(resp.data)
     })

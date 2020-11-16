@@ -37,13 +37,14 @@ export default function PostCommentInput({handleInputAddComment, postId, actualA
         <img src={`${process.env.PUBLIC_URL}/img/${actualActiveUser}.png`} alt="" />
       </div>
       <div className="inputArea">
-        <input 
-          type="text" 
+        <textarea 
+          // type="text"
+          rows="3" 
           placeholder="Digite seu comentário..."
           value={commentInput}
           onChange={(e) => setCommentInput(e.target.value)}
           onKeyPress={handleKeyPress}
-        />
+        ></textarea>
         <span className="messageInfo">{infoMessage}</span>
       </div>
     </div>

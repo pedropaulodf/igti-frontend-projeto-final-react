@@ -4,6 +4,9 @@
   align-items: center;
   margin-top: 10px;
 }
+.postInfo .areaComments .inputCommentArea .actualUserAvatar {
+  align-self: baseline;
+}
 
 .postInfo .areaComments .inputCommentArea .actualUserAvatar img {
   width: 50px;
@@ -18,19 +21,24 @@
   width: 100%;
 }
 
-.postInfo .areaComments .inputCommentArea .inputArea input {
+.postInfo .areaComments .inputCommentArea .inputArea input,
+.postInfo .areaComments .inputCommentArea .inputArea textarea {
   width: 100%;
   height: 50px;
+  max-height: 120px;
+  min-height: 50px;
   margin-right: 10px;
-  border-radius: 50px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
   box-shadow: 4px 4px 7px 0px rgb(0 0 0 / 12%);
   box-sizing: border-box;
-  padding: 10px 20px;
+  padding: 10px 12px;
   font-size: 15px;
+  resize: vertical;
 }
 
-.postInfo .areaComments .inputCommentArea .inputArea input:hover {
+.postInfo .areaComments .inputCommentArea .inputArea input:hover,
+.postInfo .areaComments .inputCommentArea .inputArea textarea:hover {
   border: 1px solid var(--border-color-hover);
 }
 
@@ -39,7 +47,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   font-size: .8em;
-  margin-left: 20px;
+  margin-left: 12px;
   color: var(--span-info-color);
   text-align: left;
 }
