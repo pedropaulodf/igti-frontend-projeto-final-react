@@ -79,8 +79,8 @@ function App() {
       bestFriends.push(actualUser);
       setAllUsers(bestFriends);
     }
-    setAllUserAvailable();
 
+    setAllUserAvailable();
     getAllPostsDataFromActualUser();
 
   },[])

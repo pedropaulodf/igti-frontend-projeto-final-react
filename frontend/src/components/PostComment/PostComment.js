@@ -1,3 +1,4 @@
+import { X } from 'react-feather';
 import './postcomment.css';
 
 export default function PostComment({commentInfo, handleInputDeleteComment}) {
@@ -22,7 +23,9 @@ export default function PostComment({commentInfo, handleInputDeleteComment}) {
         </div>
       </div>
       
-      <button className="deleteCommentBtn" onClick={() => handleClickDeleteComment(commentInfo.id)}>X</button>
+      <button className="deleteCommentBtn" onClick={() => handleClickDeleteComment(commentInfo.id)} title="Exclur esse comentário">
+      <X color="#333333"  fill="true" size={18} />
+      </button>
 
     </div>
   )

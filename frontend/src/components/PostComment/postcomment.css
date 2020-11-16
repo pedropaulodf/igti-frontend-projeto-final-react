@@ -49,12 +49,12 @@
 }
 
 .deleteCommentBtn{
-  margin-top: -23px;
+  margin-top: -28px;
   display: block;
   float: right;
   cursor: pointer;
   border: none;
-  padding: 3px 8px;
+  padding: 3px 5px;
   border-radius: 6px 0px 6px 0px;
   opacity: 0.5;
 }
