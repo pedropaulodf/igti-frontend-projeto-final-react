@@ -109,7 +109,7 @@ function App() {
   async function handleDeletePostComment(commentId){
 
     await api.delete(`/comments/${commentId}`)
-    .then(resp => {
+    .then((_) => {
       getAllPostsDataFromActualUser();
     })
     .catch(error => {
@@ -137,7 +137,7 @@ function App() {
   async function handleDislikePost(likeId){
 
     await api.delete(`/likes/${likeId}`)
-    .then(resp => {
+    .then((_) => {
       getAllPostsDataFromActualUser();
     })
     .catch(error => {
