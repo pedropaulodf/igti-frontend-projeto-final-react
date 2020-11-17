@@ -9,6 +9,15 @@
 .likesCounter .comments {
   margin-left: 10px;
 }
+
 .likesCounter .likes {
   cursor: pointer;
+}
+
+.likesCounter .likes, 
+.likesCounter .comments {
+  width: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
