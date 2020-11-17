@@ -16,5 +16,5 @@ O interessante é que deu para ver minha evolução do primeiro bootcamp para es
 Esse projeto marca os cerca de 3 meses que estou estudando React.js e React Native.
 
 ### Desafios para implementar no futuro
-Usar o MongoDB para a persistência dos dados.
-Melhorar o feedback visual dos CRUDs da aplicação.
+* Usar o MongoDB para a persistência dos dados.
+* Melhorar o feedback visual dos CRUDs da aplicação.
