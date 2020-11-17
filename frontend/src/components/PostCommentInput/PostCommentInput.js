@@ -19,8 +19,10 @@ export default function PostCommentInput({handleInputAddComment, postId, actualA
   }
   
   function handleKeyPress(event){
+    
     if(event.key === 'Enter'){
       if (handleInputValidation()) {
+        event.preventDefault();
         handleInputAddComment(postId, actualActiveUser, commentInput);
         setCommentInput('');
       }

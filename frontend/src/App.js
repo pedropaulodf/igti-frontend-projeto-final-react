@@ -85,12 +85,11 @@ function App() {
 
   },[])
 
-  // console.log(allPostsDataFromActualUser);
-
   function handleChangeActiveUser(user) {
     setActualUser(user);
   }
 
+  // Handle add post comment
   async function handleAddPostComment(postId, user, comment){
 
     const userComment = {
@@ -106,6 +105,20 @@ function App() {
 
   }
 
+  // Handle delete post comment
+  async function handleDeletePostComment(commentId){
+
+    await api.delete(`/comments/${commentId}`)
+    .then(resp => {
+      getAllPostsDataFromActualUser();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+  }
+
+  // Handle like in a post
   async function handleLikePost(postId, user){
 
     const userLiked = {
@@ -120,29 +133,16 @@ function App() {
 
   }
 
+  // Handle dislike in a post
   async function handleDislikePost(likeId){
 
     await api.delete(`/likes/${likeId}`)
     .then(resp => {
-      console.log(resp.data)
+      getAllPostsDataFromActualUser();
     })
     .catch(error => {
       console.log(error);
     });
-    getAllPostsDataFromActualUser();
-
-  }
-
-  async function handleDeletePostComment(commentId){
-
-    await api.delete(`/comments/${commentId}`)
-    .then(resp => {
-      console.log(resp.data)
-    })
-    .catch(error => {
-      console.log(error);
-    });
-    getAllPostsDataFromActualUser();
 
   }
 

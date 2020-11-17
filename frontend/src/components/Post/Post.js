@@ -26,13 +26,19 @@ export default function Post({handleDislikedPost, handleLikedPost, handleAddComm
     data = data[0].likes.filter((like) => {
       return like.user === activeUser;
     })
-    // console.log(data[0].id);
     handleDislikedPost(data[0].id);
   }
 
   return (
     <div>
       {postData.map(({post, comments, likes}) => {
+
+        // Set who liked and who comment in each post
+        let whoLiked = likes.map(like => like.user );
+        let whoComment = comments.map(comment => comment.user);
+        whoLiked = whoLiked.join('\n');
+        whoComment = whoComment.join('\n');
+
         return (
           <div key={post.id} className="post" >
             <div className="postImg">
@@ -48,8 +54,8 @@ export default function Post({handleDislikedPost, handleLikedPost, handleAddComm
               <PostStats 
                 totalLikes={likes.length} 
                 totalComments={comments.length} 
-                likesInfo={likes}
-                commentsInfo={comments}
+                allWhoLiked={whoLiked}
+                allWhoComment={whoComment}
                 activeUserLiked={likes.some(like => like.user === activeUser)}
                 handleLike={() => handlePostLike(post.id)}
                 handleDisliked={() => handlePostDisliked(post.id)}
@@ -66,13 +72,13 @@ export default function Post({handleDislikedPost, handleLikedPost, handleAddComm
                     />
                   );
                 })}
+                
+              </div>
                 <PostCommentInput 
                   postId={post.id} 
                   actualActiveUser={activeUser}
                   handleInputAddComment={handleAddPostComment}
                 />
-                
-              </div>
             </div>
           </div>
         );
