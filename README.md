@@ -6,7 +6,7 @@
 React.js, Axios, Json-server, uuid, Styled-Components (Primeiro projeto usando a biblioteca. Aprendi para poder criar o dark mode :D), CSS Flex e Grid (layout responsivo feito do zero, sem framework CSS)
 
 ### Projeto
-Desenvolver o laytou de um instagram de filmes baseado no backend fornecido pelo professor. 
+Desenvolver o layout de um instagram de filmes baseado no backend fornecido pelo professor. 
 
 ### O que aprendi
 Me desafiei a fazer o layout do projeto todo do zero, CSS todo criado por mim, com layout responsivo, com CSS Flex e CSS Grid. Tentei criar um CSS organizado primeiro, para depois puxar os dados da API e popular com os dados.
