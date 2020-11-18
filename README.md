@@ -3,7 +3,7 @@
 # Projeto Movinstagram, desenvolvido no Bootcamp de Frontend do IGTI
 
 ### Tecnologias usadas
-React.js, Axios, Json-server, uuid, CSS Flex e Grid (layout responsivo feito do zero, sem framework)
+React.js, Axios, Json-server, uuid, Styled-Components (Primeiro projeto usando a biblioteca. Aprendi para poder criar o dark mode :D), CSS Flex e Grid (layout responsivo feito do zero, sem framework CSS)
 
 ### Projeto
 Desenvolver o laytou de um instagram de filmes baseado no backend fornecido pelo professor. 
@@ -15,6 +15,9 @@ O interessante é que deu para ver minha evolução do primeiro bootcamp para es
 
 Esse projeto marca os cerca de 3 meses que estou estudando React.js e React Native.
 
+Edit: Acrescentei o dark mode com Styled Components, algo novo que também aprendi por conta. \o/ :D
+
 ### Desafios para implementar no futuro
 * Usar o MongoDB para a persistência dos dados.
 * Melhorar o feedback visual dos CRUDs da aplicação.
+* Organizar os controllers.

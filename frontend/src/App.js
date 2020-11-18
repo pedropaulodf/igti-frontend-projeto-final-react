@@ -1,16 +1,115 @@
 import { useEffect, useState } from "react";
-import AvatarInfo from "./components/AvatarInfo/AvatarInfo";
-import Header from "./components/Header/Header";
-import Post from "./components/Post/Post";
-import Users from "./components/Users/Users";
+import AvatarInfo from "./components/AvatarInfo";
+import Header from "./components/Header";
+import Post from "./components/Post";
+import Users from "./components/Users";
+import { Sun, Moon } from 'react-feather';
 import { v4 as uuidv4 } from 'uuid';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import api from './services/api';
 
-import "./app.css";
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${({bodyBgColor}) => (bodyBgColor ? '#f9f9f9' : '#232323')};
+    transition: background-color 0.3s;
+    padding: 10px;
+  }
+
+  /* Body Scroll Bar */
+  body::-webkit-scrollbar {
+    width: 18px;
+    height: 0px;
+  }
+
+  /* All elements Scroll Bar */
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${({bodyBgColor}) => (bodyBgColor ? '#f1f1f1' : '#404040')};
+    border-radius: 10px;
+    border: 1px solid ${({bodyBgColor}) => (bodyBgColor ? '#f1f1f1' : '#404040')};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({bodyBgColor}) => (bodyBgColor ? '#dbdbdb' : '#6b6b6b')};
+    border-radius: 10px;
+    border: 2px solid ${({bodyBgColor}) => (bodyBgColor ? '#f1f1f1' : '#404040')};
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${({bodyBgColor}) => (bodyBgColor ? '#cacaca' : '#868686')};
+  }
+`;
+
+const lightTheme = {
+  bg_color: '#f1f1f1',
+  container_color: '#ffffff',
+  border_color: '#eeeeee',
+  border_color_hover: '#929292',
+  user_selected_color: '#ececec',
+  user_selected_color_hover: '#ffffff',
+  color_indigo: 'indigo',
+  span_info_color: '#b8b8b8',
+  span_info_error_color: '#ff7676',
+  tile_bg_color: '#ffffff',
+  text_color: '#333333',
+};
+
+const darkTheme = {
+  bg_color: '#333333',
+  container_color: '#000000',
+  border_color: '#4a4a4a',
+  border_color_hover: '#ececec',
+  user_selected_color: '#ececec',
+  user_selected_color_hover: '#222222',
+  color_indigo: 'indigo',
+  span_info_color: '#f7f7f7',
+  span_info_error_color: '#ff7676',
+  tile_bg_color: '#333333',
+  text_color: '#ffffff',
+};
+
+const StyledButtonThemeSwitcher = styled.button`
+  position: fixed;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 0px 0px 20px 20px;
+  color: ${({theme}) => theme.text_color};
+  background-color: ${({theme}) => theme.bg_color};
+`;
+
+const StyledContainer = styled.div`
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 40px;
+  & .topBar {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    grid-gap: 10px;
+    
+  }
+  @media (max-width: 720px) {
+    .topBar {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
+`;
 
 function App() {
   
+  const [theme, setTheme] = useState(lightTheme);
+  const [bodyTheme, setBodyTheme] = useState(true);
+
   const [defaultUser, setDefaultUser] = useState('superman');
   const [actualUser, setActualUser] = useState('superman');
   const [allUsers, setAllUsers] = useState([]);
@@ -18,6 +117,16 @@ function App() {
 
   const [allUserPostsComments, setAllUserPostsComments] = useState([]);
   const [allUserPostsLikes, setAllUserPostsLikes] = useState([]);
+
+  function handleThemeChange() {
+    setBodyTheme(!bodyTheme);
+    setTheme(oldTheme => {
+      if (oldTheme.bg_color === '#f1f1f1') {
+        return darkTheme;
+      }
+      return lightTheme;
+    });
+  }
 
   async function getAllPostsDataFromActualUser() {
     const allPostsUser = await api.get(`/posts?user=${defaultUser}`).then(response => {
@@ -147,38 +256,46 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <Header>Movinstagram</Header>
-      
-        <div className="topBar">
-          <AvatarInfo 
-            actualUserOnline={defaultUser}
-            totalUserPosts={allPostsDataFromActualUser.length}
-            totalUserComments={allUserPostsComments}
-            totalUserLikes={allUserPostsLikes}
-          />
-          <Users 
-            allUserAvailable={allUsers} 
-            activeUser={actualUser} 
-            onUserChange={handleChangeActiveUser}
-          />
-        </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle bodyBgColor={bodyTheme} />
 
-      {allPostsDataFromActualUser.length === 0
-        ? (<p>Nenhum post encontrado...</p>) 
-        : (
-            <Post 
-              postData={allPostsDataFromActualUser} 
-              activeUser={actualUser} 
-              handleAddComment={handleAddPostComment}
-              handleDeleteComment={handleDeletePostComment}
-              handleLikedPost={handleLikePost}
-              handleDislikedPost={handleDislikePost}
+      <StyledContainer>
+        <Header>Movinstagram</Header>
+
+        <StyledButtonThemeSwitcher onClick={handleThemeChange}>
+          {bodyTheme ? <Sun className="icon" size={20}/> : <Moon className="icon" size={20}/>}
+        </StyledButtonThemeSwitcher>
+
+          <div className="topBar">
+            <AvatarInfo 
+              actualUserOnline={defaultUser}
+              totalUserPosts={allPostsDataFromActualUser.length}
+              totalUserComments={allUserPostsComments}
+              totalUserLikes={allUserPostsLikes}
             />
-          )
-      }
-      
-    </div>
+            <Users 
+              allUserAvailable={allUsers} 
+              activeUser={actualUser} 
+              onUserChange={handleChangeActiveUser}
+            />
+          </div>
+
+        {allPostsDataFromActualUser.length === 0
+          ? (<p>Nenhum post encontrado...</p>) 
+          : (
+              <Post 
+                postData={allPostsDataFromActualUser} 
+                activeUser={actualUser} 
+                handleAddComment={handleAddPostComment}
+                handleDeleteComment={handleDeletePostComment}
+                handleLikedPost={handleLikePost}
+                handleDislikedPost={handleDislikePost}
+              />
+            )
+        }
+        
+      </StyledContainer>
+    </ThemeProvider>
   );
 }
 
