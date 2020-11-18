@@ -3,7 +3,7 @@
 # Projeto Movinstagram, desenvolvido no Bootcamp de Frontend do IGTI
 
 ### Tecnologias usadas
-React.js, Axios, Json-server, uuid, CSS Flex e Grid (layout feito do zero, sem framework)
+React.js, Axios, Json-server, uuid, CSS Flex e Grid (layout responsivo feito do zero, sem framework)
 
 ### Projeto
 Desenvolver o laytou de um instagram de filmes baseado no backend fornecido pelo professor. 
