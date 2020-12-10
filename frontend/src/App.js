@@ -54,6 +54,8 @@ const lightTheme = {
   span_info_error_color: '#ff7676',
   tile_bg_color: '#ffffff',
   text_color: '#333333',
+  bg_color_theme_switcher: '#333333',
+  icon_color_theme_switcher: '#ffffff',
 };
 
 const darkTheme = {
@@ -68,6 +70,8 @@ const darkTheme = {
   span_info_error_color: '#ff7676',
   tile_bg_color: '#333333',
   text_color: '#ffffff',
+  bg_theme_switcher: '#ffffff',
+  icon_color_theme_switcher: '#333333',
 };
 
 const StyledButtonThemeSwitcher = styled.button`
@@ -80,8 +84,8 @@ const StyledButtonThemeSwitcher = styled.button`
   padding: 5px 10px;
   margin-right: 10px;
   border-radius: 0px 0px 20px 20px;
-  color: ${({theme}) => theme.text_color};
-  background-color: ${({theme}) => theme.bg_color};
+  color: ${({theme}) => theme.icon_color_theme_switcher};
+  background-color: ${({theme}) => theme.bg_color_theme_switcher};
 `;
 
 const StyledContainer = styled.div`
@@ -263,7 +267,7 @@ function App() {
         <Header>Movinstagram</Header>
 
         <StyledButtonThemeSwitcher onClick={handleThemeChange}>
-          {bodyTheme ? <Sun className="icon" size={20}/> : <Moon className="icon" size={20}/>}
+          {bodyTheme ? <Moon className="icon" size={20}/> : <Sun className="icon" size={20}/>}
         </StyledButtonThemeSwitcher>
 
           <div className="topBar">

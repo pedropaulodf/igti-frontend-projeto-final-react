@@ -57,7 +57,7 @@ const StyledAreaCurrentUser = styled.div`
   }
 
   @media (max-width: 500px) {
-    .areaCurrentUser .currentUsers {
+    .currentUsers {
       flex-direction: column;
     }
   }
