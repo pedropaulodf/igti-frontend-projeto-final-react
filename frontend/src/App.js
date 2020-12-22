@@ -6,6 +6,7 @@ import Users from "./components/Users";
 import { Sun, Moon } from 'react-feather';
 import { v4 as uuidv4 } from 'uuid';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import Loading from "./components/Loading";
 
 import api from './services/api';
 
@@ -288,7 +289,7 @@ function App() {
           </div>
 
         {carregando 
-        ? (<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>) 
+        ? (<Loading/>) 
         : (allPostsDataFromActualUser.length === 0
           ? (<p>Nenhum post encontrado...</p>) 
           : (
