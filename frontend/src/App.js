@@ -114,6 +114,8 @@ function App() {
   const [theme, setTheme] = useState(lightTheme);
   const [bodyTheme, setBodyTheme] = useState(true);
 
+  const [carregando, setCarregando] = useState(true);
+
   const [defaultUser, setDefaultUser] = useState('superman');
   const [actualUser, setActualUser] = useState('superman');
   const [allUsers, setAllUsers] = useState([]);
@@ -182,6 +184,7 @@ function App() {
     setAllUserPostsComments(allPostsTotalComments);
     setAllUserPostsLikes(allPostsTotalLikes);
     setAllPostsDataFromActualUser(allPostsData);
+    setCarregando(false);
   }
 
   useEffect(() => {
@@ -284,7 +287,9 @@ function App() {
             />
           </div>
 
-        {allPostsDataFromActualUser.length === 0
+        {carregando 
+        ? (<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>) 
+        : (allPostsDataFromActualUser.length === 0
           ? (<p>Nenhum post encontrado...</p>) 
           : (
               <Post 
@@ -296,6 +301,7 @@ function App() {
                 handleDislikedPost={handleDislikePost}
               />
             )
+          ) 
         }
         
       </StyledContainer>
