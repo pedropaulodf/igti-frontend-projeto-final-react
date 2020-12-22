@@ -51,7 +51,7 @@ const StyledAreaCurrentUser = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 30px;
-    background-color: ${({theme}) => theme.color_indigo};
+    background-color: ${({theme}) => theme.color_bg_image};
     box-shadow: 4px 4px 7px 0px rgb(0 0 0 / 12%);
     margin-right: 10px;
   }
